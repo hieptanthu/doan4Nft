@@ -1,25 +1,23 @@
-import page from "../pages"
+import page from "../pages";
 
-var routerAdmin=[
-    {
-        path:"home",
-        element:page.admin.Home,
-        sate:""
-    }
-]
-var routerUser =[
-    {
-        path:"home",
-        element:page.user.Home,
-        sate:""
-    }
-]
+var routerAdmin = [
+  {
+    path: "",
+    element: page.admin.Home,
+    state: "index",
+  },
+];
+var routerUser = [
+  {
+    path: "",
+    element: page.user.Home,
+    state: "index",
+  },
+];
 
+var router = {
+  admin: routerAdmin,
+  user: routerUser,
+};
 
-
-var router= {
-    admin:routerAdmin,
-    user:routerUser
-}
-
-export default router
+export default router;
