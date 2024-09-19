@@ -1,0 +1,13 @@
+.link {
+  color: #333 !important;
+  height: 100%;
+}
+
+.link:hover {
+  background-color: #eceaea !important;
+}
+
+.btn {
+  height: 100%;
+  background-color: #1fbdbd !important;
+}

@@ -13,10 +13,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-
+import style from "./style.module.css";
 import { accState } from "../../../../constant/recoil";
 import { useRecoilValue } from "recoil";
-import { height } from "@mui/system";
 
 function Header() {
   const [pages] = useState(["Products", "Pricing", "Blog"]);
@@ -43,7 +42,7 @@ function Header() {
   return (
     <AppBar position="sticky">
       <Container maxWidth="xxl">
-        <Toolbar disableGutters>
+        <Toolbar>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -60,7 +59,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            NDH
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -119,8 +118,8 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
+                className={style.link}
                 key={page}
-                onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
@@ -130,7 +129,7 @@ function Header() {
           {}
 
           {Object.keys(acc).length === 0 ? (
-            <div>login</div>
+            <Button className={style.btn}>Wallet connection</Button>
           ) : (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

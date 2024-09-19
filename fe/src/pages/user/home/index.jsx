@@ -1,9 +1,13 @@
+import { Container } from "@mui/material";
+import product from "../../../components/product";
+
 var Home = () => {
   return (
     <>
-      <div>
-        <h1>home</h1>
-      </div>
+      {product.ProductIm("../../../../public/nft.jpeg")}
+      <Container maxWidth="xxl">
+        <div>1sdw</div>
+      </Container>
     </>
   );
 };

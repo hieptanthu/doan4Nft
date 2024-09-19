@@ -1,10 +1,12 @@
-function Home () {
-
-    return ( 
-        <>
-        <div> <h1>home</h1></div>
-        </>
-     );
+function Home() {
+  return (
+    <>
+      <div>
+        {" "}
+        <h1>homeddd</h1>
+      </div>
+    </>
+  );
 }
 
-export default Home ;
+export default Home;

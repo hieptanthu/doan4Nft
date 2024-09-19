@@ -1,39 +1,36 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
 import router from "./routers";
-import layouts from "./compnents/layout";
+import component from "./components";
+import "./style/globals.css";
 
 function App() {
+  console.log(router);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={layouts.user}>
-          {router.user.map((item) =>
-            item.state === "index" ? (
-              <Route
-                index
-                key={item.path}
-                path={item.path}
-                element={item.element}
-              />
-            ) : (
-              <Route key={item.path} path={item.path} element={item.element} />
-            )
-          )}
-        </Route>
-        <Route path="/admin" element={layouts.admin}>
-          {router.user.map((item) =>
-            item.state === "index" ? (
-              <Route
-                index
-                key={item.path}
-                path={item.path}
-                element={item.element}
-              />
-            ) : (
-              <Route key={item.path} path={item.path} element={item.element} />
-            )
-          )}
+        {router.user && router.user.length > 0 ? (
+          <Route path="/" element={component.layouts.user}>
+            {router.user.map((item, index) =>
+              item.state === "index" ? (
+                <Route
+                  index
+                  key={index}
+                  path={item.path}
+                  element={item.element}
+                />
+              ) : (
+                <Route key={index} path={item.path} element={item.element} />
+              )
+            )}
+          </Route>
+        ) : null}
+
+        <Route path="/">
+          {router.status && router.status.length > 0
+            ? router.status.map((item, index) => (
+                <Route key={index} path={item.path} element={item.element} />
+              ))
+            : null}
         </Route>
       </Routes>
     </BrowserRouter>
