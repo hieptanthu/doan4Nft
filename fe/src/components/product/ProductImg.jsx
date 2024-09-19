@@ -4,23 +4,23 @@ function ProductImg({ LinkImg, size }) {
   const ListSize = {
     sm: {
       height: "132px",
-      with: "132px",
+      width: "132px",
     },
     md: {
-      height: "259px",
-      with: "259px",
+      height: "265px",
+      width: "265px",
     },
     lg: {
       height: "540px",
-      with: "540px",
+      width: "540px",
     },
     xl: {
       height: "540px",
-      with: "540px",
+      width: "540px",
     },
     xxl: {
       height: "540px",
-      with: "540px",
+      width: "540px",
     },
   };
 
@@ -33,13 +33,9 @@ function ProductImg({ LinkImg, size }) {
 
   return (
     <>
-      <div>
-        <div>
-          <Link to="/d">
-            <img style={divStyle} src={LinkImg} alt="" />
-          </Link>
-        </div>
-      </div>
+      <Link style={divStyle} to="/d">
+        <img style={divStyle} src={LinkImg} alt="" />
+      </Link>
     </>
   );
 }

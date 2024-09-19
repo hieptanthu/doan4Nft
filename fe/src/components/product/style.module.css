@@ -89,3 +89,7 @@ div.card:hover {
   box-shadow: rgba(22, 22, 26, 0.08) 0px 0px 0px 2px inset;
   transition: 0.5s ease-in-out;
 }
+
+.card .card-text {
+  background-color: aqua;
+}
