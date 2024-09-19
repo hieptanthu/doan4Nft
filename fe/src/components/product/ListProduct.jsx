@@ -1,10 +1,31 @@
 import ProductCart from "./ProductCart";
+import { Row, Col } from "react-bootstrap";
 function ListProduct() {
   return (
     <>
-      <div>
-        <ProductCart></ProductCart>
-      </div>
+      <Row>
+        <Col>
+          <ProductCart />
+        </Col>
+        <Col>
+          <ProductCart />
+        </Col>
+        <Col>
+          <ProductCart />
+        </Col>
+        <Col>
+          <ProductCart />
+        </Col>
+        <Col>
+          <ProductCart />
+        </Col>
+        <Col>
+          <ProductCart />
+        </Col>
+        <Col>
+          <ProductCart />
+        </Col>
+      </Row>
     </>
   );
 }

@@ -7,8 +7,8 @@ function ProductImg({ LinkImg, size }) {
       with: "132px",
     },
     md: {
-      height: "259.8px",
-      with: "259.8px",
+      height: "259px",
+      with: "259px",
     },
     lg: {
       height: "540px",

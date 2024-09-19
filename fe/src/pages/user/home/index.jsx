@@ -11,7 +11,7 @@ var Home = () => {
 
       <Container maxWidth="xxl">
         {product.ProductDetailL}
-        {product.ListProduct}
+        {product.ListProduct()}
       </Container>
     </>
   );

@@ -1,21 +1,29 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-
+import ProductImg from "./ProductImg";
+import Style from "./style.module.css";
+import { Link } from "react-router-dom";
 function ProductCart() {
   return (
-    <>
-      <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
+    <div>
+      <Card className={Style.card} style={{ width: "243px", height: "400px " }}>
+        <Card.Header style={{ textAlign: "center", alignItems: "center" }}>
+          <ProductImg
+            size="md"
+            LinkImg="https://mekoong.com/wp-content/uploads/2022/10/7151752393896643867-5.jpg"
+          />
+        </Card.Header>
         <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
+          <Card.Title style={{ display: "flex", flexDirection: "column" }}>
+            <Link style={{ fontSize: "13px", color: "rgb(60, 54, 54, 0.7)" }}>
+              by shara
+            </Link>
+            <Link>Card Title</Link>
+          </Card.Title>
+          <Card.Text>asdasd</Card.Text>
         </Card.Body>
       </Card>
-    </>
+    </div>
   );
 }
 
