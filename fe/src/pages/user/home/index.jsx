@@ -4,9 +4,14 @@ import product from "../../../components/product";
 var Home = () => {
   return (
     <>
-      {product.ProductIm("../../../../public/nft.jpeg")}
+      {/* {product.ProductIm(
+        "https://mekoong.com/wp-content/uploads/2022/10/7151752393896643867-5.jpg",
+        "md"
+      )} */}
+
       <Container maxWidth="xxl">
-        <div>1sdw</div>
+        {product.ProductDetailL}
+        {product.ListProduct}
       </Container>
     </>
   );
