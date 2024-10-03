@@ -1,70 +1,122 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Building and Deploying a Blockchain NFT Marketplace DApp
 
-## Available Scripts
+Enter the realm of digital ownership and creativity with our blockchain NFT (Non-Fungible Token) Marketplace DApp. This groundbreaking platform empowers creators and collectors to tokenize and trade unique digital assets securely and transparently on the blockchain.
 
-In the project directory, you can run:
+Our NFT Marketplace DApp provides a decentralized marketplace where creators can mint, showcase, and sell their digital creations as NFTs. These NFTs represent ownership of digital assets, such as art, music, videos, virtual real estate, and more, with each token being one-of-a-kind and indivisible
 
-### `npm start`
+## Project Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![alt text](https://www.daulathussain.com/wp-content/uploads/2023/04/nft-marketplace.jpg)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Instruction
 
-### `npm test`
+Kindly follow the following Instructions to run the project in your system and install the necessary requirements
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+- [Final Source Code](https://www.theblockchaincoders.com/sourceCode/nft-marketplace-project-source-code)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Setup Video
+- [Final Code Setup video](https://youtu.be/w3IsLQxXTvo?si=PtRxR-o4kwlAWZga)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```https://code.visualstudio.com/download
+  WATCH: Setup & Demo Of Project
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+#### Install Vs Code Editor
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```https://code.visualstudio.com/download
+  GET: VsCode Editor
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### NodeJs & NPM Version
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```https://nodejs.org/en/download
+  NodeJs: v18.12.1
+  NPM: 8.19.2
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Pinata
 
-## Learn More
+```https://pinata.cloud
+ GET PINATA API KEY
+ GET PINATA SECRET KEY
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Clone Starter File
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```https://github.com/daulathussain/Airdrop-Crypto-Starter-File
+  GET: Project Starter File Download
+```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+All you need to follow the complete project and follow the instructions which are explained in the tutorial by Daulat
 
-### Analyzing the Bundle Size
+## Final Code Instruction
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+If you download the final source code then you can follow the following instructions to run the Dapp successfully
 
-### Making a Progressive Web App
+#### Setup Video
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```https://code.visualstudio.com/download
+  WATCH: Setup & Demo Of Project
+```
 
-### Advanced Configuration
+#### Final Source Code
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```https://www.theblockchaincoders.com/SourceCode
+  Download the Final Source Code
+```
 
-### Deployment
+#### Install Vs Code Editor
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```https://code.visualstudio.com/download
+  GET: VsCode Editor
+```
 
-### `npm run build` fails to minify
+#### NodeJs & NPM Version
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```https://nodejs.org/en/download
+  NodeJs: v18.12.1
+  NPM: 8.19.2
+```
+
+
+#### Test Faucets
+
+Alchemy will provide you with some free test faucets which you can transfer to your wallet address for deploying the contract
+
+```https://www.alchemy.com/faucets
+  Get: Free Test Faucets
+```
+
+#### RemixID
+
+We are using RemixID for deploying the contract and generation of the ABI in the project, but you can use any other tools like Hardhat, etc.
+
+```https://remix-project.org
+  OPEN: RemixID
+```
+
+#### Polygon Mumbai
+
+```https://mumbai.polygonscan.com/
+  OPEN: Polygon Mumbai
+```
+
+## Important Links
+
+- [Get Pro Blockchain Developer Course](https://www.theblockchaincoders.com/pro-nft-marketplace)
+- [Support Creator](https://bit.ly/Support-Creator)
+- [All Projects Source Code](https://www.theblockchaincoders.com/SourceCode)
+
+
+## Authors
+
+- [@theblockchaincoders.com](https://www.theblockchaincoders.com/)
+- [@consultancy](https://www.theblockchaincoders.com/consultancy)
+- [@youtube](https://www.youtube.com/@daulathussain)
+
+
+
