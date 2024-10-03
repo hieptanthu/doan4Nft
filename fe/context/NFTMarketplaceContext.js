@@ -6,7 +6,10 @@ import Router from "next/router";
 import axios from "axios";
 import { nftMarketplaceAddress, nftMarketplaceABI } from "./constants";
 import Web3Modal from "web3modal";
-
+import { NFTStorage, File } from "nft.storage";
+const client = new NFTStorage({
+  token: "697b0133.edf5943516c041918a0c1134f2025f3b",
+});
 // Import just a few select items
 
 const checkContract = async () => {
@@ -34,6 +37,24 @@ const connectingWithSmartContract = async () => {
     console.log("not connect to smart contract");
   }
 };
+
+async function uploadToNFTStorage(fileData) {
+  const fromData = new FormData();
+  fromData.append("file", fileData);
+
+  const response = await axios({
+    method: "post",
+    url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+    data: fromData,
+    headers: {
+      pinata_api_key: `da91802aa3accdffd5ef`,
+      pinata_secret_api_key: `9730ed98f26704e345c35ed0e5e290f2ec98583a7b20b4dde8e09a382018e770`,
+    },
+  });
+
+  const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+  return ImgHash;
+}
 
 export const useContract = React.createContext();
 
@@ -80,10 +101,12 @@ export const ContractProvider = ({ children }) => {
   //create Function
   const createNFT = async (formInput, file) => {
     const { title, Description } = formInput;
-    if (!title || !Description || !file)
+    if (!title || !Description || !file) {
       return console.log("Data Is Missing", title);
-
+    }
+    const url = await uploadToNFTStorage(file);
     try {
+      console.log(url);
     } catch (error) {
       console.log("Error while create NFT");
     }

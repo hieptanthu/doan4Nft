@@ -1,12 +1,12 @@
 import React from "react";
 import { useContract } from "../context/NFTMarketplaceContext";
 import { Container } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import component from "../components";
 
 function createNFT() {
-  const { createNFT } = useContract();
+  const { createNFT } = useContext(useContract);
   const [formParams, updateFormParams] = useState({
     title: "",
     Description: "",
