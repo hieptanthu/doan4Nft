@@ -1,0 +1,471 @@
+/* styles/globals.css */
+
+/* Nhập font Poppins từ Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* Nhập CSS Bootstrap */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Định nghĩa các biến màu cho chế độ sáng */
+:root {
+  --background-color: #131111; /* Màu nền sáng */
+  --text-color: #f0e9e9; /* Màu chữ sáng */
+}
+
+/* Định nghĩa các biến màu cho chế độ tối */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #000000; /* Màu nền tối */
+    --text-color: #ffffff; /* Màu chữ tối */
+  }
+}
+
+/* Áp dụng các biến màu vào toàn bộ ứng dụng */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif; /* Sử dụng font Poppins */
+  margin: 0; /* Bỏ margin mặc định */
+  padding: 0; /* Bỏ padding mặc định */
+  line-height: 1.6; /* Khoảng cách dòng */
+}
+
+/* Định dạng tiêu đề */
+h1 {
+  font-size: 2.5rem; /* Kích thước chữ cho tiêu đề */
+  font-weight: bold; /* Trọng số chữ */
+  margin-bottom: 1rem; /* Khoảng cách dưới tiêu đề */
+}
+
+h2 {
+  font-size: 2rem; /* Kích thước chữ cho tiêu đề cấp 2 */
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.75rem; /* Kích thước chữ cho tiêu đề cấp 3 */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Định dạng đoạn văn bản */
+p {
+  font-size: 1rem; /* Kích thước chữ cho đoạn văn */
+  margin-bottom: 1rem; /* Khoảng cách dưới đoạn văn */
+}
+
+/* Định dạng liên kết */
+a {
+  color: rgb(12, 12, 12); /* Màu chữ cho liên kết */
+  text-decoration: none; /* Gạch chân liên kết */
+}
+
+a:hover {
+  text-decoration: none; /* Bỏ gạch chân khi di chuột qua */
+}
+
+/* sua  boottrap */
+.bg-dark {
+  --bs-bg-opacity: 0.7;
+}
+
+.navbar-nav {
+  align-items: center;
+}
+
+.custom-dropdown {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu {
+  top: 100%;
+  left: auto;
+  right: 0;
+}
+
+.dropdown-toggle::after {
+  content: none;
+}
+
+/* product details */
+.productDetailContainer {
+  position: relative;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  transition: all 0.15s ease-in-out 0s;
+  width: 100%;
+  padding: 24px;
+  height: 668px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.productDetailBackground {
+  position: absolute;
+  inset: 0px;
+  z-index: -1;
+  border-radius: 16px;
+  transform: translateZ(0px);
+  overflow: hidden;
+  width: 100%;
+}
+.productDetailBackground > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.productDetailBackgroundItem {
+  vertical-align: inherit;
+  max-width: 100%;
+  min-height: 0px;
+  min-width: 0px;
+  flex-shrink: 0;
+  flex-direction: column;
+  flex-basis: auto;
+  display: flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  border-width: 0px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+}
+.productDetailItem {
+  flex-flow: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1080px;
+  height: 540px;
+}
+
+/* list text Product detail */
+.productDetailContainer .listText {
+  text-align: left;
+  align-items: flex-start;
+  max-width: 420px;
+  margin: auto;
+}
+
+.productDetailContainer .listText div {
+  margin: 10px 0;
+}
+
+.productDetailContainer .nameProduct {
+  vertical-align: inherit;
+  font-size: 40px;
+  line-height: 46px;
+  font-weight: 700;
+}
+
+/* card Product */
+
+div.card {
+  margin-top: 20px;
+  border-radius: 16px;
+}
+div.card:hover {
+  transform: translateY(-3px);
+  box-shadow: rgba(22, 22, 26, 0.08) 0px 0px 0px 2px inset;
+  transition: 0.3s ease-in-out;
+}
+
+.card .card-text {
+  background-color: aqua;
+}
+
+.timeDown {
+  height: 42px;
+  text-align: center;
+  background-color: rgb(187 176 176 / 50%);
+  align-items: center;
+  border-radius: 9px;
+  align-content: center;
+}
+
+.timeDown .timeDownText {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.cardImg {
+  position: relative;
+}
+
+.cardImg .btn {
+  position: absolute;
+  top: 70%; /* Initially place it off-screen */
+  left: 26%;
+  opacity: 0; /* Make it invisible */
+  transform: translateY(50px); /* Move it down by 20px */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Control both opacity and position during hover */
+}
+
+.card:hover .btn {
+  opacity: 1; /* Make it visible */
+  transform: translateY(0); /* Move it to its original position */
+}
+
+/* product details */
+.productDetailContainer {
+  position: relative;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  transition: all 0.15s ease-in-out 0s;
+  width: 100%;
+  padding: 24px;
+  height: 668px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.productDetailBackground {
+  position: absolute;
+  inset: 0px;
+  z-index: 0;
+  border-radius: 16px;
+  transform: translateZ(0px);
+  overflow: hidden;
+  width: 100%;
+}
+.productDetailBackground > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.productDetailBackgroundItem {
+  vertical-align: inherit;
+  max-width: 100%;
+  min-height: 0px;
+  min-width: 0px;
+  flex-shrink: 0;
+  flex-direction: column;
+  flex-basis: auto;
+  display: flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  border-width: 0px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  opacity: 0.9;
+}
+.productDetailItem {
+  flex-flow: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1080px;
+  height: 540px;
+}
+
+/* list text Product detail */
+.productDetailContainer .listText {
+  text-align: left;
+  align-items: flex-start;
+  max-width: 420px;
+  margin: auto;
+}
+
+.productDetailContainer .listText div {
+  margin: 10px 0;
+}
+
+.productDetailContainer .nameProduct {
+  vertical-align: inherit;
+  font-size: 40px;
+  line-height: 46px;
+  font-weight: 700;
+}
+
+/* nav */
+
+.nav-item {
+  color: #ffffff;
+  margin: 0 10px 0 10px;
+  border-bottom: 2px; /* Đặt độ dày border */
+}
+
+@keyframes borderBottomAnimation {
+  0% {
+    border-color: rgba(235, 9, 9, 0.5); /* Red */
+    box-shadow: 0 5px 10px rgba(233, 136, 136, 0.5); /* Bóng bên dưới */
+  }
+  14% {
+    border-color: rgba(255, 127, 0, 0.5); /* Orange */
+    box-shadow: 0 5px 10px rgba(250, 198, 145, 0.5); /* Bóng bên dưới */
+  }
+  28% {
+    border-color: rgba(255, 255, 0, 0.5); /* Yellow */
+    box-shadow: 0 5px 10px rgba(255, 255, 0, 0.5); /* Bóng bên dưới */
+  }
+  42% {
+    border-color: rgba(0, 255, 0, 0.5); /* Green */
+    box-shadow: 0 5px 10px rgba(182, 250, 182, 0.5); /* Bóng bên dưới */
+  }
+  57% {
+    border-color: rgba(0, 0, 255, 0.5); /* Blue */
+    box-shadow: 0 5px 10px rgba(188, 188, 255, 0.5); /* Bóng bên dưới */
+  }
+  71% {
+    border-color: rgba(75, 0, 130, 0.5); /* Indigo */
+    box-shadow: 0 5px 10px rgba(229, 197, 252, 0.5); /* Bóng bên dưới */
+  }
+  85% {
+    border-color: rgba(148, 0, 211, 0.5); /* Violet */
+    box-shadow: 0 5px 10px rgba(230, 195, 248, 0.5); /* Bóng bên dưới */
+  }
+  100% {
+    border-color: rgba(235, 9, 9, 0.5); /* Red (loop back) */
+    box-shadow: 0 5px 10px rgba(233, 136, 136, 0.5); /* Bóng bên dưới */
+  }
+}
+
+/* card Product */
+
+.div.card {
+  margin-top: 20px;
+  border-radius: 16px;
+}
+div.card:hover {
+  transform: translateY(-3px);
+  box-shadow: rgba(22, 22, 26, 0.08) 0px 0px 0px 2px inset;
+  transition: 0.3s ease-in-out;
+}
+
+.card .card-text {
+  background-color: aqua;
+}
+
+.timeDown {
+  height: 42px;
+  text-align: center;
+  background-color: rgb(187 176 176 / 50%);
+  align-items: center;
+  border-radius: 9px;
+  align-content: center;
+}
+
+.timeDown > .timeDownText {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.cardImg {
+  position: relative;
+}
+
+.cardImg > a {
+  position: absolute;
+  top: 70%; /* Initially place it off-screen */
+  left: 26%;
+  right: 26%;
+  opacity: 0; /* Make it invisible */
+  transform: translateY(50px); /* Move it down by 20px */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Control both opacity and position during hover */
+}
+
+.cardImg:hover > a {
+  opacity: 1; /* Make it visible */
+  transform: translateY(0); /* Move it to its original position */
+}
+
+.modal-header {
+  color: #333;
+}
+
+/* Reset mặc định của danh sách */
+#toggle-list {
+  padding: 0;
+  margin: 0;
+  display: flex; /* Sắp xếp theo chiều ngang */
+  gap: 10px; /* Khoảng cách giữa các phần tử */
+  list-style-type: none; /* Xóa bullet */
+}
+
+/* Giao diện mặc định - nền trắng, chữ đen */
+.toggle-item {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: 2px solid black;
+  margin: 1px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Khi được chọn - nền đen, chữ trắng */
+.toggle-item.active {
+  background-color: white;
+  color: black;
+  border: 1px solid;
+}
+@keyframes borderAnimation {
+  0% {
+    border-color: rgba(235, 9, 9, 0.5); /* Red */
+    box-shadow: 0 0 5px rgba(233, 136, 136, 0.5),
+      0 0 10px rgba(233, 136, 136, 0.5), 0 0 15px rgba(233, 136, 136, 0.5);
+  }
+  14% {
+    border-color: rgba(255, 127, 0, 0.5); /* Orange */
+    box-shadow: 0 0 5px rgba(250, 198, 145, 0.5),
+      0 0 10px rgba(250, 198, 145, 0.5), 0 0 15px rgba(250, 198, 145, 0.5);
+  }
+  28% {
+    border-color: rgba(255, 255, 0, 0.5); /* Yellow */
+    box-shadow: 0 0 5px rgba(253, 253, 166, 0.5),
+      0 0 10px rgba(255, 255, 0, 0.5), 0 0 15px rgba(255, 255, 0, 0.5);
+  }
+  42% {
+    border-color: rgba(0, 255, 0, 0.5); /* Green */
+
+    box-shadow: 0 0 5px rgba(182, 250, 182, 0.5),
+      0 0 10px rgba(182, 250, 182, 0.5), 0 0 15px rgba(182, 250, 182, 0.5);
+  }
+  57% {
+    border-color: rgba(0, 0, 255, 0.5); /* Blue */
+    box-shadow: 0 0 5px rgba(188, 188, 255, 0.5),
+      0 0 10px rgba(188, 188, 255, 0.5), rgba(188, 188, 255, 0.5);
+  }
+  71% {
+    border-color: rgba(75, 0, 130, 0.5); /* Indigo */
+    box-shadow: 0 0 5px rgba(229, 197, 252, 0.5),
+      0 0 10px rgba(229, 197, 252, 0.5), rgba(229, 197, 252, 0.5);
+  }
+  85% {
+    border-color: rgba(148, 0, 211, 0.5); /* Violet */
+    box-shadow: 0 0 5px rgba(230, 195, 248, 0.5),
+      0 0 10px rgba(230, 195, 248, 0.5), rgba(230, 195, 248, 0.5);
+  }
+  100% {
+    border-color: rgba(235, 9, 9, 0.5); /* Red (loop back) */
+
+    box-shadow: 0 0 5px rgba(233, 136, 136, 0.5),
+      0 0 10px rgba(233, 136, 136, 0.5), 0 0 15px rgba(233, 136, 136, 0.5);
+  }
+}
+
+.toggle-item:hover {
+  z-index: 2;
+  animation: borderAnimation 2s infinite; /* Animation settings */
+}
