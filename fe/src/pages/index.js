@@ -19,6 +19,7 @@ export default function Home() {
         console.log("call error NFTs", error);
       }
     };
+
     CallNFTs();
   }, []);
 

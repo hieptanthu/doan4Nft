@@ -28,7 +28,7 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
 
   useEffect(() => {
     const callHistory = async () => {
-      const data = await contractAuction.getBidHistory(NFT);
+      const data = await contractAuction.getBidHistory(NFT.tokenId);
       if (data) {
         setHistory(data);
       }
@@ -315,27 +315,30 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
                         </Row>
                       </Row>
                       <ListGroup style={{ height: "400px", overflowY: "auto" }}>
-                        {history.map((item, index) => (
-                          <ListGroup.Item key={index}>
-                            <Row
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <Col>
-                                {lbr.string.shortenAddress(item.bidder)}
-                              </Col>
-                              <Col>
-                                {lbr.number.fromWeiToNumber(item.amount)}{" "}
-                              </Col>
-                              <Col>
-                                {" "}
-                                {lbr.time.setBlockTimeToTime(item.timestamp)}
-                              </Col>
-                            </Row>
-                          </ListGroup.Item>
-                        ))}
+                        {history
+                          .slice()
+                          .reverse()
+                          .map((item, index) => (
+                            <ListGroup.Item key={index}>
+                              <Row
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <Col>
+                                  {lbr.string.shortenAddress(item.bidder)}
+                                </Col>
+                                <Col>
+                                  {lbr.number.fromWeiToNumber(item.amount)}{" "}
+                                </Col>
+                                <Col>
+                                  {" "}
+                                  {lbr.time.setBlockTimeToTime(item.timestamp)}
+                                </Col>
+                              </Row>
+                            </ListGroup.Item>
+                          ))}
                       </ListGroup>
                     </div>
                   </>

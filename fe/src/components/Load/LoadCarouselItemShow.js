@@ -5,11 +5,11 @@ import Image from "react-bootstrap/Image"; // Correct import for Image
 import Placeholder from "react-bootstrap/Placeholder";
 import { LoadImg, backgroundLoad } from "@/image";
 function LoadCarouselItemShow({ text }) {
-  const [showText, setShowText] = useState(false);
+  const [showText, setShowText] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowText(true);
+      setShowText(false);
     }, 20000); // 20 seconds delay
 
     return () => clearTimeout(timer); // Cleanup on unmount

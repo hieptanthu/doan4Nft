@@ -25,7 +25,7 @@ const MyNFTs = () => {
         default:
           console.error("Invalid call type");
       }
-
+      console.log(data);
       if (data) {
         setNFTs(data);
       }

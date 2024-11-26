@@ -12,7 +12,7 @@ function Layout({ children }) {
   const [showCreateAcc, setShowCreateAcc] = useState(false);
 
   useEffect(() => {
-    callUser = async () => {
+    const callUser = async () => {
       const data = await UserApi.getById(account);
       if (data) {
         setCheckAcc("notAcc");

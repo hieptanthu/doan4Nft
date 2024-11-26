@@ -45,7 +45,7 @@ module.exports = {
     development: {
       host: "127.0.0.1",
       port: 7545, // Or whatever port you are using
-      network_id: "1337", // This should match your provider's network ID
+      network_id: "*", // This should match your provider's network ID
     },
     //
     // goerli: {

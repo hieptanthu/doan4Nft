@@ -235,6 +235,33 @@ export const ContractProvider = ({ children }) => {
         console.log("CallAllNFTsSell false", error);
       }
     },
+    getTransferHistory: async (tokenId) => {
+      try {
+        // Kết nối với hợp đồng NFT
+        const contract = await smartContract.NFTs.connectingWithSmartContract();
+        if (!contract) {
+          console.error("Contract is not initialized");
+          return;
+        }
+        // Lắng nghe tất cả các sự kiện Transfer liên quan đến tokenId
+        const transferHistory = await contract.getPastEvents("Transfer", {
+          filter: { tokenId: tokenId }, // Lọc sự kiện Transfer theo tokenId
+          fromBlock: 0, // Bắt đầu từ block 0
+          toBlock: "latest", // Đến block mới nhất
+        });
+
+        const transferData = transferHistory.map((event) => ({
+          from: event.returnValues.from,
+          to: event.returnValues.to,
+          tokenId: event.returnValues.tokenId,
+        }));
+        // Trả về mảng chứa thông tin về các sự kiện
+        return transferData;
+      } catch (error) {
+        console.error("Error fetching transfer history:", error);
+        return [];
+      }
+    },
   };
 
   const contractSell = {

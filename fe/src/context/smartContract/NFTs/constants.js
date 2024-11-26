@@ -1,3 +1,3 @@
 import abiJson from "./NFT.json";
-export const NFTsAddress = "0xBb9934D292Fe9dB7C3336CA944f25fb97a0c8b11";
+export const NFTsAddress = "0x7479D83A1D5a83d6d538FcEB31a5C62351F826d5";
 export const NFTsABI = abiJson.abi;
