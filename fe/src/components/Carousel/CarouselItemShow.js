@@ -63,7 +63,9 @@ function CarouselItemShow({ NFT }) {
                     </div>
                     <div>
                       <Button style={{ marginLeft: "10px" }} variant="light">
-                        <span>See</span>
+                        <Link href={" NFTdetail?tokenId="+NFT.tokenId}>
+                        See
+                      </Link>
                       </Button>
                     </div>
                     <div>
