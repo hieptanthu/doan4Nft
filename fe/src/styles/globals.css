@@ -412,6 +412,7 @@ div.card:hover {
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s, color 0.3s;
+  transition: transform 0.5s ease-in-out; /* Thêm hiệu ứng chuyển động */
 }
 
 /* Khi được chọn - nền đen, chữ trắng */
@@ -468,4 +469,16 @@ div.card:hover {
 .toggle-item:hover {
   z-index: 2;
   animation: borderAnimation 2s infinite; /* Animation settings */
+  transform: translateY(-10px);
+}
+
+.dropdown-item {
+  transition: transform 0.5s ease-in-out; /* Thêm hiệu ứng chuyển động */
+}
+
+.dropdown-item:hover,
+.dropdown-item:hover a {
+  background-color: #131111;
+  color: #ffffff;
+  transform: translateX(-10px);
 }

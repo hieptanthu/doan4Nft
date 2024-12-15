@@ -9,10 +9,24 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { useContract } from "@/context/NFTMarketplaceContext";
 import lbr from "@/library";
-
+import { useRouter } from "next/router";
 import { logo, User1 } from "@/image";
 export const Header = () => {
+  const [selectedOption, setSelectedOption] = useState("1");
+  const [inputValue, setInputValue] = useState("");
   const { accountHandler, account } = useContext(useContract);
+  const router = useRouter();
+  const handleSearch = () => {
+    let url = "";
+    if (selectedOption === "1") {
+      url = `/NFTdetail?tokenId=${inputValue}`;
+    } else if (selectedOption === "2") {
+      url = `/Userdetail?userId=${inputValue}`;
+    }
+
+    // Chuyển hướng sử dụng next/router
+    router.push(url);
+  };
 
   return (
     <Navbar
@@ -56,15 +70,23 @@ export const Header = () => {
                 aria-label="Example text with button addon"
                 aria-describedby="basic-addon1"
                 placeholder="token id or address user id"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
               />
               <Form.Select
                 style={{ maxWidth: "130px" }}
                 aria-label="Default select example"
+                value={selectedOption}
+                onChange={(e) => setSelectedOption(e.target.value)}
               >
                 <option value="1">Token</option>
                 <option value="2">User</option>
               </Form.Select>
-              <Button variant="outline-secondary" id="button-addon1">
+              <Button
+                variant="outline-secondary"
+                id="button-addon1"
+                onClick={handleSearch}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -113,16 +135,15 @@ export const Header = () => {
               }
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item>
-                <Link href={"/createMyNFT"}>Create NFT</Link>{" "}
+              <NavDropdown.Item as="div">
+                <Link href="/createMyNFT">Create NFT</Link>
               </NavDropdown.Item>
-              <NavDropdown.Item>
-                {" "}
-                <Link href={"/MyNFTs"}>MyNFT</Link>{" "}
+              <NavDropdown.Item as="div">
+                <Link href="/MyNFTs">MyNFT</Link>
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>
+              <NavDropdown.Item as="div">Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
+              <NavDropdown.Item as="div">Log Out</NavDropdown.Item>
             </NavDropdown>
           )}
         </Nav>

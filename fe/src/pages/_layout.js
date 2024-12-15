@@ -24,8 +24,18 @@ function Layout({ children }) {
 
   if (!account) {
     return (
-      <div>
-        <h1>{showCreateAcc}</h1>
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <h1>Welcome to Website Marketplace NFT BY Nguyen Duc Hiep</h1>
+
         <h1>Connect Wallet</h1>
         <Button
           onClick={() => {
