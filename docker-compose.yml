@@ -13,7 +13,7 @@ services:
   app:
     build:
       context: ./fe  # Dự án Next.js ở thư mục ./fe
-    container_name: app
+    container_name: blokchain-app
     ports:
       - "3000:3000"  # Chuyển tiếp cổng 3000 cho ứng dụng Next.js
     networks:
