@@ -1,3 +1,3 @@
 import abiJson from "./Auction.json";
-export const AuctionAddress = "0xe4fD7809AFfAF8d4EA7c8aA5888e96A5e44807ae";
+export const AuctionAddress = "0x62BdBde6a78e3fC4f66CcD661EAb0234Cacf5bDC";
 export const AuctionABI = abiJson.abi;

@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Chạy ứng dụng Node.js
-CMD ["node", "server.js"]
+CMD ["node", "index.js"]

@@ -16,12 +16,13 @@ import { useRouter } from "next/router";
 import LoadList from "@/components/Load/LoadList";
 import LoadCarouselItemShow from "@/components/Load/LoadCarouselItemShow";
 import CountdownTimer from "@/components/Other/CountdownTimer";
+import { background } from "@/image";
+import Chat from "@/chat";
 
 function ProductDetailAuction({ NFT, NFTAuction }) {
   const router = useRouter();
   const { contractAuction, account } = useContext(useContract);
   const [history, setHistory] = useState(null);
-  console.log(history);
   const [price, setPrice] = useState(0);
 
   const [chats, setChats] = useState(null);
@@ -90,10 +91,7 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
         <>
           <div className={"productDetailContainer"}>
             <div className={"productDetailBackground"}>
-              <img
-                src="https://c.pxhere.com/images/03/bd/45d44ff74597ecf4d69dbd92d890-1448495.jpg!d"
-                alt="asas"
-              />
+              <img src={background.src} alt="asas" />
             </div>
             <div
               style={{ zIndex: "2" }}
@@ -347,19 +345,7 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
                 )}
               </Col>
               <Col>
-                <div
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  <h3 style={{ margin: "0px" }}>Chats</h3>
-
-                  {chats && chats.length > 0 ? (
-                    <></>
-                  ) : (
-                    <LoadList text="Not Have Chat" />
-                  )}
-                </div>
+                <Chat tokenId={NFT.tokenId} userId={account} />
               </Col>
             </Row>
           </Container>

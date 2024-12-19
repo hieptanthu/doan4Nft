@@ -14,10 +14,10 @@ RUN npm install
 COPY . .
 
 # # Build ứng dụng Next.js
-# RUN npm run build
+RUN npm run build
 
 # Mở cổng 3000 cho ứng dụng Next.js
 EXPOSE 3000
 
 # Lệnh chạy ứng dụng Next.js
-CMD ["npm", "dev"]
+CMD ["npm", "start"]

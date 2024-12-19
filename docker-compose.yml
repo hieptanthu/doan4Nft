@@ -13,14 +13,14 @@ services:
   app:
     build:
       context: ./fe  # Dự án Next.js ở thư mục ./fe
-    container_name: blokchain-app
+    container_name: blokchain-app  # Đảm bảo rằng tên này là đúng
     ports:
-      - "3000:3000"  # Chuyển tiếp cổng 3000 cho ứng dụng Next.js
+      - "3000:3000"
     networks:
-      - app_network  # Kết nối ứng dụng vào mạng Docker
+      - app_network
     environment:
-      - REDIS_HOST=redis  # Cấu hình tên host Redis trong mạng Docker (dùng dịch vụ Redis trong docker-compose.yml)
-
+      - REDIS_HOST=redis
+    
   redis:
     image: redis:latest  # Sử dụng image chính thức của Redis
     container_name: redis-container

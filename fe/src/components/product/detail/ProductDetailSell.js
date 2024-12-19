@@ -5,6 +5,9 @@ import { Col, Container, Row, Button } from "react-bootstrap";
 import lbr from "@/library";
 import { useContract } from "@/context/NFTMarketplaceContext";
 import { useRouter } from "next/router";
+import { background } from "@/image";
+import History from "../history";
+import Chat from "@/chat";
 
 function ProductDetailSell({ NFT, NFTSell }) {
   const router = useRouter();
@@ -41,10 +44,7 @@ function ProductDetailSell({ NFT, NFTSell }) {
       {NFT != null ? (
         <div className={"productDetailContainer"}>
           <div className={"productDetailBackground"}>
-            <img
-              src="https://c.pxhere.com/images/03/bd/45d44ff74597ecf4d69dbd92d890-1448495.jpg!d"
-              alt="asas"
-            />
+            <img src={background.src} alt="asas" />
           </div>
           <div
             style={{ zIndex: "2" }}
@@ -145,6 +145,16 @@ function ProductDetailSell({ NFT, NFTSell }) {
       ) : (
         <></>
       )}
+      <Container>
+        <Row>
+          <Col>
+            <History tokenId={NFT.tokenId} />
+          </Col>
+          <Col>
+            <Chat tokenId={NFT.tokenId} userId={account} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

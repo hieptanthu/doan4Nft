@@ -3,13 +3,15 @@ import Link from "next/link";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import ProductImg from "../product/common/ProductImg";
 import lbr from "@/library";
+import { background } from "@/image";
 function CarouselItemShow({ NFT }) {
+  console.log(background)
   return (
     <>
       <div className={"productDetailContainer"}>
         <div className={"productDetailBackground"}>
           <img
-            src="https://c.pxhere.com/images/03/bd/45d44ff74597ecf4d69dbd92d890-1448495.jpg!d"
+            src={background.src}
             alt="asas"
           />
         </div>
@@ -22,7 +24,7 @@ function CarouselItemShow({ NFT }) {
                     LinkImg={
                       NFT?.image
                         ? NFT.image
-                        : "https://mekoong.com/wp-content/uploads/2022/10/7151752393896643867-5.jpg"
+                        : background
                     }
                     size="xl"
                   />

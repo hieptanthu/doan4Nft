@@ -4,31 +4,22 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import { useEffect, useState, useContext } from "react";
 import modal from "./modal";
-import listen from "@/context/eventListener.js";
 import { useContract } from "@/context/NFTMarketplaceContext";
 import lbr from "@/library";
 import { useRouter } from "next/router";
+import { background } from "@/image";
+import History from "../history";
+import Chat from "@/chat";
 function ProductDetail({ _product }) {
   const { contractMyNFT, contractSell, contractAuction, account } =
     useContext(useContract);
-  const [history, setHistory] = useState([]);
   const [product, setProduct] = useState({});
   const [showSell, setShowSell] = useState(false);
   const [showAuction, setShowAuction] = useState(false);
   const router = useRouter();
   useEffect(() => {
     setProduct(_product);
-
-    CallHistory(_product.tokenId);
   }, [_product]);
-
-  const CallHistory = async (tokenId) => {
-    try {
-      setHistory(await contractMyNFT.getTransferHistory(tokenId));
-    } catch (error) {
-      console.log("CallHistory false", error);
-    }
-  };
 
   const sell = async (data) => {
     try {
@@ -96,10 +87,7 @@ function ProductDetail({ _product }) {
       )}
       <div className={"productDetailContainer"}>
         <div className={"productDetailBackground"}>
-          <img
-            src="https://c.pxhere.com/images/03/bd/45d44ff74597ecf4d69dbd92d890-1448495.jpg!d"
-            alt=""
-          />
+          <img src={background.src} alt="" />
         </div>
         <div style={{ zIndex: "2" }} className={"productDetailBackgroundItem"}>
           <div className={"productDetailItem"}>
@@ -187,42 +175,16 @@ function ProductDetail({ _product }) {
           </div>
         </div>
       </div>
-
-      <>
-        <Container>
-          <div>
-            <h3>Transfer History</h3>
-            {history.length > 0 ? (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>From</th>
-                    <th>To</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history
-                    .slice()
-                    .reverse()
-                    .map(
-                      (
-                        item,
-                        index // Dùng slice() để tạo bản sao của mảng rồi đảo ngược
-                      ) => (
-                        <tr key={index}>
-                          <td>{item.from}</td>
-                          <td>{item.to}</td>
-                        </tr>
-                      )
-                    )}
-                </tbody>
-              </table>
-            ) : (
-              <p>No transfer history found.</p>
-            )}
-          </div>
-        </Container>
-      </>
+      <Container>
+        <Row>
+          <Col>
+            <History tokenId={product.tokenId} />
+          </Col>
+          <Col>
+            <Chat tokenId={product.tokenId} userId={account} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

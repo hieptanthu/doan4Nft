@@ -3,11 +3,11 @@ import React from "react";
 import { ListGroup, Placeholder } from "react-bootstrap";
 import { useState, useEffect } from "react";
 function LoadList({ text }) {
-  const [showText, setShowText] = useState(false);
+  const [showText, setShowText] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowText(true);
+      setShowText(false);
     }, 30000); // 20 seconds delay
 
     return () => clearTimeout(timer); // Cleanup on unmount
