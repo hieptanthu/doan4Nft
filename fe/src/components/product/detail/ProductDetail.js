@@ -181,7 +181,7 @@ function ProductDetail({ _product }) {
             <History tokenId={product.tokenId} />
           </Col>
           <Col>
-            <Chat tokenId={product.tokenId} userId={account} />
+          <Chat tokenId={parseInt(product.tokenId)} userId={account} />
           </Col>
         </Row>
       </Container>

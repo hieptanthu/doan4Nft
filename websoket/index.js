@@ -2,9 +2,8 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const redis = require("redis");
-const { createAdapter } = require("socket.io-redis");
+const { createAdapter } = require("@socket.io/redis-adapter");
 const cors = require("cors");
-const { create } = require("domain");
 
 const app = express();
 
@@ -19,8 +18,7 @@ app.use(
 
 // Tạo kết nối Redis client
 const redisClient = redis.createClient({
-  host: "127.0.0.1", // Sử dụng tên container Redis
-  port: 6379, // Cổng Redis
+  url: "redis://127.0.0.1:6379", // URL kết nối Redis
 });
 
 redisClient.on("error", (err) => {
@@ -33,10 +31,12 @@ redisClient.on("connect", () => {
 
 // Tạo pub/sub clients cho Redis
 const pubClient = redis.createClient({
-  host: "127.0.0.1", // Sử dụng tên container Redis
-  port: 6379,
+  url: "redis://127.0.0.1:6379",
 });
-const subClient = pubClient.duplicate(); // Duplicates pubClient for subscription
+const subClient = pubClient.duplicate();
+
+pubClient.connect().catch(console.error);
+subClient.connect().catch(console.error);
 
 const server = http.createServer(app);
 
@@ -48,130 +48,124 @@ const io = new Server(server, {
   adapter: createAdapter(pubClient, subClient),
 });
 
-const listUser = {};
+
+const listUser = {}; // Danh sách người dùng
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userid;
   listUser[userId] = socket.id;
+  console.log("User connected:", userId, "Socket ID:", socket.id);
   console.log(listUser);
 
+  // Tham gia vào phòng Product
   socket.on("joinRoomProduct", async (room) => {
-    socket.join("Product" + room);
-    const roomSize = getUsersInRoom("Product" + room);
-    io.to("Product" + room).emit("UserInRoomProduct", roomSize);
-    console.log(
-      `User ${socket.id} joined room Product${room} - number of users: ${roomSize}`
-    );
+    const roomName = `Product${room}`;
+    socket.join(roomName);
+    const roomSize = getUsersInRoom(roomName);
+    io.to(roomName).emit("UserInRoomProduct", roomSize);
+    console.log(`User ${socket.id} joined room ${roomName} - Users: ${roomSize}`);
   });
 
-  socket.on("joinRommChat", async (room) => {
+  // Tham gia vào phòng Chat
+  socket.on("joinRoomChat", async (room) => {
     try {
-      socket.join("chat" + room);
-      // Kiểm tra kết nối Redis trước khi thực hiện lệnh
-      if (!redisClient.isOpen) {
-        // Nếu Redis client không mở, khởi tạo lại kết nối
-        console.log("Redis client is not open, reconnecting...");
-        await redisClient.connect();
-      }
-      // Kiểm tra xem lịch sử chat có tồn tại không
-      const messages = await redisClient.lRange(`chat_history_${room}`, -6, -1);
-      // Nếu không có tin nhắn nào, tạo lịch sử chat trống
-      if (messages.length === 0) {
-        console.log(
-          `No messages in room ${room}, creating empty chat history.`
-        );
-      } else {
-        io.to("chat" + room).emit("chatHistory", messages);
-      }
+
+      const roomName = `chat${room}`;
+      socket.join(roomName);
     } catch (err) {
-      console.error("Lỗi khi lấy lịch sử chat:", err);
+      console.error("Error fetching chat history:", err);
     }
   });
 
+  // Gửi tin nhắn
   socket.on("sendMessage", async (data) => {
-    const room = data.room;
-    const createAt = Date.now(); // Lấy thời gian hiện tại
+    const { room, message } = data;
+    const createAt = Date.now(); // Thời gian hiện tại
     const messageObject = {
-      message: data.message,
-      userId: userId,
-      createAt: createAt,
+      message,
+      userId,
+      createAt,
     };
 
     const messageString = JSON.stringify(messageObject);
-    // Kiểm tra dữ liệu đầu vào
+    console.log("Message:", messageObject);
+
     if (!room || !messageObject) {
-      console.error("Dữ liệu không hợp lệ");
+      console.error("Invalid data");
       return;
     }
 
     try {
-      // Gửi tin nhắn vào Redis
-      const reply = await redisClient.rPush(
-        `chat_history_${room}`,
-        messageString
-      );
-      console.log("Lệnh rPush thành công, danh sách có", reply, "phần tử.");
+      if (!redisClient.isOpen) {
+        console.log("Redis client is not open, reconnecting...");
+        await redisClient.connect();
+      }
 
-      // Gửi tin nhắn tới tất cả người dùng trong phòng
-      io.to("chat" + room).emit("receiveMessage", messageString);
+      // Lưu tin nhắn vào Redis
+      await redisClient.rPush(`chat_history_${room}`, messageString);
+
+      // Phát tin nhắn tới phòng
+      io.to(`chat${room}`).emit("receiveMessage", messageString);
     } catch (err) {
-      console.error("Lỗi khi lưu tin nhắn vào Redis:", err);
+      console.error("Error saving message to Redis:", err);
     }
   });
 
-  socket.on("chaneProduct", async (data) => {
-    const room = data.room;
-    const product = data.product;
-
-    io.to("Product" + room).emit("receiveChaneProduct", product);
+  // Thay đổi thông tin Product
+  socket.on("changeProduct", async (data) => {
+    const { room, product } = data;
+    io.to(`Product${room}`).emit("receiveChangeProduct", product);
   });
 
+  // Tải thêm tin nhắn
   socket.on("loadMoreMessages", async (data) => {
-    const room = data.room;
-    const lastMessageIndex = data.lastMessageIndex;
-
+    const { room, lastMessageIndex } = data;
     try {
+      if (!redisClient.isOpen) {
+        console.log("Redis client is not open, reconnecting...");
+        await redisClient.connect();
+      }
       const messages = await redisClient.lRange(
         `chat_history_${room}`,
         lastMessageIndex - 16,
-        lastMessageIndex - 1
+        lastMessageIndex==-1?-1:lastMessageIndex - 1
       );
       if (messages.length > 0) {
-        io.to("chat" + room).emit("chatHistory", messages);
+        io.to(listUser[userId]).emit("chatHistory", messages);
       }
     } catch (err) {
-      console.error("Lỗi khi tải thêm tin nhắn:", err);
+      console.error("Error loading more messages:", err);
     }
   });
 
+  // Rời phòng Product
   socket.on("leaveRoomProduct", (room) => {
-    socket.leave("Product" + room);
-    const roomSize = getUsersInRoom("Product" + room);
-    io.to("Product" + room).emit("UserOutRoomProduct", roomSize);
-    console.log(
-      `User ${socket.id} left room Product${room} - number of users: ${roomSize}`
-    );
+    const roomName = `Product${room}`;
+    socket.leave(roomName);
+    const roomSize = getUsersInRoom(roomName);
+    io.to(roomName).emit("UserOutRoomProduct", roomSize);
+    console.log(`User ${socket.id} left room ${roomName} - Users: ${roomSize}`);
   });
 
+  // Rời phòng Chat
   socket.on("leaveRoomChat", (room) => {
-    socket.leave("chat" + room);
+    socket.leave(`chat${room}`);
   });
 
+  // Ngắt kết nối
   socket.on("disconnect", () => {
     delete listUser[userId];
+    console.log("User disconnected:", userId);
   });
 });
 
+// Lấy số lượng người dùng trong phòng
 function getUsersInRoom(roomName) {
   const room = io.sockets.adapter.rooms.get(roomName);
-  if (room) {
-    return room.size;
-  } else {
-    return 0;
-  }
+  return room ? room.size : 0;
 }
 
-// API Route to get server status and user count
+// API kiểm tra trạng thái server
 app.get("/api/status", (req, res) => {
   const totalUsers = Object.keys(listUser).length;
   const rooms = {};
@@ -191,5 +185,5 @@ app.get("/api/status", (req, res) => {
 
 // Khởi động server
 server.listen(5001, () => {
-  console.log("Server is running on port 5001");
+  console.log("Server is running on port 5002");
 });

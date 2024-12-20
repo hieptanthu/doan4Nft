@@ -1,8 +1,8 @@
 module.exports = {
   networks: {
     ganache: {
-      host: "127.0.0.1",  // Địa chỉ của Ganache
-      port: 7545,         // Cổng Ganache đang lắng nghe
+      host: "0.0.0.0",  // Địa chỉ của Ganache
+      port: 8545,         // Cổng Ganache đang lắng nghe
       network_id: "*",    // Khớp với bất kỳ network ID nào (Ganache tạo ID mạng tự động)
     },
   },

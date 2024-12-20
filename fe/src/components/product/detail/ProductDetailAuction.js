@@ -345,7 +345,7 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
                 )}
               </Col>
               <Col>
-                <Chat tokenId={NFT.tokenId} userId={account} />
+                <Chat tokenId={parseInt(NFT.tokenId)} userId={account} />
               </Col>
             </Row>
           </Container>

@@ -1,36 +1,105 @@
-import React, { useState, useContext, useEffect } from "react";
-import lbr from "@/library";
+import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import Image from "next/image";
+import lbr from "@/library";
+
 function Chat({ tokenId, userId }) {
-  let socket;
-  const [message, setMessage] = useState();
-  const [messages, setMessages] = useState();
-  console.log(tokenId);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const [lastMessageIndex, setLastMessageIndex] = useState(-1);
+
   useEffect(() => {
     if (!tokenId) {
       return;
     }
+
     // Kết nối tới URL từ biến môi trường
     const socketURL = process.env.NEXT_PUBLIC_Socket_URL; // URL từ môi trường
-    socket = io(socketURL);
+    const newSocket = io(socketURL, {
+      query: {
+        userid: userId,
+      },
+    });
+    setSocket(newSocket);
+
+    newSocket.on("chatHistory", (messages) => {
+      setMessages((prev) => [...messages, ...prev]);
+      setLastMessageIndex((prevIndex) => prevIndex - 16);
+    });
+
+    newSocket.on("receiveMessage", (message) => {
+      setLastMessageIndex((prevIndex) => prevIndex - 1);
+      setMessages((prev) => [...prev, message]);
+    });
+
     // Lắng nghe sự kiện từ server
-    socket.emit("joinRommChat", tokenId);
+    newSocket.emit("joinRoomChat", tokenId);
+
+    loadMoreMessages(newSocket);
 
     return () => {
-      if ((socket, tokenId)) {
-        socket.emit("leaveRoomChat", tokenId);
+      if (newSocket && tokenId) {
+        newSocket.emit("leaveRoomChat", tokenId);
+        newSocket.disconnect();
       }
     };
   }, [tokenId]);
-  async function send() {}
+
+  useEffect(() => {
+    const chatContainer = document.querySelector(".chat");
+    const handleScroll = () => {
+      if (chatContainer.scrollTop === 0) {
+        loadMoreMessages(socket);
+      }
+    };
+
+    chatContainer.addEventListener("scroll", handleScroll);
+
+    return () => {
+      chatContainer.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastMessageIndex]);
+
+  function send() {
+    if (message.trim() && socket) {
+      socket.emit("sendMessage", { room: tokenId, message });
+      setMessage(""); // Clear input field
+    }
+  }
+
+  function loadMoreMessages(socketInstance) {
+    if (socketInstance) {
+      socketInstance.emit("loadMoreMessages", { room: tokenId, lastMessageIndex });
+    }
+  }
+
   return (
-    <>
+    
+    <div > 
       <h3>chat</h3>
-      <div className="chat-container">
-        <ul className="chat"></ul>
-        <div className="text_input">
-          <input onChange={setMessage} type="text" placeholder="Message..." />
+      <div className="chat-container"  ref={(el) => (el ? (el.scrollTop = el.scrollHeight) : null)}>
+        <ul className="chat" >
+          {messages.map((msg, index) => {
+            const messageObject = JSON.parse(msg); // Chuyển đổi chuỗi JSON thành đối tượng
+            return (
+              <li
+                className={`message ${userId === messageObject.userId ? "left" : "right"}`}
+                key={index}
+              >
+                <p>{lbr.string.shortenAddress(messageObject.userId )}</p>
+                {messageObject.message}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="text_input">
+          <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            type="text"
+            placeholder="Message..."
+          />
           <button onClick={send}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -44,8 +113,7 @@ function Chat({ tokenId, userId }) {
             </svg>
           </button>
         </div>
-      </div>
-    </>
+    </div>
   );
 }
 

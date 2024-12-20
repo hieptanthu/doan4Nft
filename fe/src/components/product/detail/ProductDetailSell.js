@@ -151,7 +151,7 @@ function ProductDetailSell({ NFT, NFTSell }) {
             <History tokenId={NFT.tokenId} />
           </Col>
           <Col>
-            <Chat tokenId={NFT.tokenId} userId={account} />
+            <Chat tokenId={parseInt(NFT.tokenId)} userId={account} />
           </Col>
         </Row>
       </Container>

@@ -33,7 +33,7 @@
       // Thêm tin nhắn vào đầu danh sách (ngược lại với thứ tự cũ)
       messages.forEach(message => {
         const messageElement = document.createElement("div");
-        messageElement.textContent = message;
+        messageElement.textContent = JSON.parse(message).message;
         chatMessages.prepend(messageElement);
       });
     });
@@ -41,7 +41,7 @@
     socket.on("receiveMessage", (message) => {
       const chatMessages = document.getElementById("chatMessages");
       const messageElement = document.createElement("div");
-      messageElement.textContent = message;
+      messageElement.textContent = message.message;
       chatMessages.appendChild(messageElement);
     });
 
@@ -56,7 +56,7 @@
     }
 
     // Gia nhập phòng khi trang được tải
-    socket.emit("joinRoomProduct", room);
+    socket.emit("joinRoomChat", room);
 
     // Lắng nghe sự kiện cuộn
     document.getElementById("chatMessages").addEventListener('scroll', function () {
@@ -64,9 +64,13 @@
 
       if (chatMessages.scrollTop === 0) {
         // Người dùng cuộn lên đầu, yêu cầu thêm tin nhắn
+        lastMessageIndex += -16;
+        console.log("Load more messages" + lastMessageIndex);
         loadMoreMessages();
       }
     });
+
+    loadMoreMessages();
 
     // Lấy thêm tin nhắn khi người dùng cuộn lên
     function loadMoreMessages() {

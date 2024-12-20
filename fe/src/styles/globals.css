@@ -487,7 +487,7 @@ div.card:hover {
   position: relative;
   height: 600px;
   border: 1px solid #ccc;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .chat {
@@ -498,7 +498,6 @@ div.card:hover {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  overflow-y: auto; /* Cuộn chỉ theo chiều dọc */
   height: 600px;
   max-height: 600px; /* Giới hạn chiều cao */
   padding-bottom: 60px;
@@ -544,10 +543,6 @@ div.card:hover {
 
 .text_input {
   font-size: 16px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: 10px 15px;
   background-color: #ffffff;
   width: 100%;
@@ -565,3 +560,4 @@ div.card:hover {
 .text_input button {
   background-color: rgba(0, 0, 0, 0);
 }
+

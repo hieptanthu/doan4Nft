@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Col, Row } from "react-bootstrap";
 import { useContract } from "@/context/NFTMarketplaceContext";
-import LoadList from "@/components/Load/LoadList";
+import lbr from "@/library";
 function History({ tokenId }) {
   const { contractMyNFT } = useContext(useContract);
   const [history, setHistory] = useState([]);
@@ -36,8 +35,8 @@ function History({ tokenId }) {
                   index // Dùng slice() để tạo bản sao của mảng rồi đảo ngược
                 ) => (
                   <tr key={index}>
-                    <td>{item.from}</td>
-                    <td>{item.to}</td>
+                    <td>{lbr.checkAddress.checkTypeAddress(item.from)}</td>
+                    <td>{lbr.checkAddress.checkTypeAddress(item.to)}</td>
                   </tr>
                 )
               )}

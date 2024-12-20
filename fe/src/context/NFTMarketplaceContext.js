@@ -16,9 +16,12 @@ export const ContractProvider = ({ children }) => {
     checkIfWalletConnected: async () => {
       try {
         if (!window.ethereum) {
-          console.log("Please install MetaMask");
+          if (confirm("Please install MetaMask")) {
+              window.location.href = "https://metamask.io/download.html"; // Dẫn đến trang tải MetaMask
+          }
           return "";
         }
+      
 
         const we3Modal = new Web3Modal();
 
