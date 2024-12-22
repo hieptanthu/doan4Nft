@@ -5,11 +5,9 @@ import ProductDetail from "@/components/product/detail/ProductDetail";
 import ProductDetailSell from "@/components/product/detail/ProductDetailSell";
 import ProductDetailAuction from "@/components/product/detail/ProductDetailAuction";
 import LoadCarouselItemShow from "@/components/Load/LoadCarouselItemShow";
-import { io } from "socket.io-client";
 
 const NFTdetail = () => {
-  let socket;
-  const { contractMyNFT, contractSell, contractAuction, account } =
+  const { contractMyNFT, contractSell, contractAuction, account ,socket} =
     useContext(useContract);
   const router = useRouter();
 
@@ -21,12 +19,14 @@ const NFTdetail = () => {
   const { tokenId } = router.query;
 
   useEffect(() => {
-    // Kết nối tới URL từ biến môi trường
-    const socketURL = process.env.NEXT_PUBLIC_Socket_URL; // URL từ môi trường
-    socket = io(socketURL);
-
     // Lắng nghe sự kiện từ server
     socket.emit("joinRoomProduct", tokenId);
+    console.log("Joined room for product:", tokenId); // Add this line to confirm the room join
+
+    socket.on("receiveChangeProduct", (product) => {
+      callNFT();
+    });
+
     const callNFT = async () => {
       try {
         if (tokenId) {
@@ -41,7 +41,8 @@ const NFTdetail = () => {
     };
     callNFT();
     return () => {
-      if (socket) socket.disconnect();
+      socket.emit("leaveRoomProduct", tokenId);
+      console.log("Left room for product:", tokenId); // Add this line to confirm the room leave
     };
   }, [tokenId, contractMyNFT]);
 

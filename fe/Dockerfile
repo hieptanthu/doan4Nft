@@ -13,11 +13,13 @@ RUN npm install
 # Sao chép toàn bộ mã nguồn ứng dụng vào container
 COPY . .
 
-# # Build ứng dụng Next.js
+
+# Build ứng dụng Next.js
 RUN npm run build
 
 # Mở cổng 3000 cho ứng dụng Next.js
 EXPOSE 3000
+
 
 # Lệnh chạy ứng dụng Next.js
 CMD ["npm", "start"]

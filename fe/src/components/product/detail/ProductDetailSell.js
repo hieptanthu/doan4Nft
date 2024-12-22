@@ -17,7 +17,10 @@ function ProductDetailSell({ NFT, NFTSell }) {
       const data = await contractSell.Buy(NFT.tokenId, NFTSell.price);
       if (data) {
         alert("Buy Ok Token");
-        router.push("/MyNFTs");
+        socket.emit("changeProduct", {
+          room: parseInt(NFT.tokenId),
+          product:"null",
+        });
       } else {
         alert("error Buy");
       }

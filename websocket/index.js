@@ -18,7 +18,7 @@ app.use(
 
 // Tạo kết nối Redis client
 const redisClient = redis.createClient({
-  url: "redis://127.0.0.1:6379", // URL kết nối Redis
+  url: "redis://183.80.66.166:6379/", // URL kết nối Redis
 });
 
 redisClient.on("error", (err) => {
@@ -31,9 +31,27 @@ redisClient.on("connect", () => {
 
 // Tạo pub/sub clients cho Redis
 const pubClient = redis.createClient({
-  url: "redis://127.0.0.1:6379",
+  url: "redis://183.80.66.166:6379/",
 });
 const subClient = pubClient.duplicate();
+
+// Kiểm tra kết nối pubClient
+pubClient.on("error", (err) => {
+  console.error("Redis pubClient error: ", err);
+});
+
+pubClient.on("connect", () => {
+  console.log("Redis pubClient connected successfully");
+});
+
+// Kiểm tra kết nối subClient
+subClient.on("error", (err) => {
+  console.error("Redis subClient error: ", err);
+});
+
+subClient.on("connect", () => {
+  console.log("Redis subClient connected successfully");
+});
 
 pubClient.connect().catch(console.error);
 subClient.connect().catch(console.error);
@@ -48,28 +66,29 @@ const io = new Server(server, {
   adapter: createAdapter(pubClient, subClient),
 });
 
-
 const listUser = {}; // Danh sách người dùng
+
+function getRoomNameProduct(room) {
+  return  `Product${room}`;
+}
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userid;
   listUser[userId] = socket.id;
-  console.log("User connected:", userId, "Socket ID:", socket.id);
-  console.log(listUser);
+  console.log("User connected:", userId);
 
   // Tham gia vào phòng Product
   socket.on("joinRoomProduct", async (room) => {
-    const roomName = `Product${room}`;
+    const roomName = getRoomNameProduct(room)
     socket.join(roomName);
     const roomSize = getUsersInRoom(roomName);
-    io.to(roomName).emit("UserInRoomProduct", roomSize);
     console.log(`User ${socket.id} joined room ${roomName} - Users: ${roomSize}`);
+    io.to(roomName).emit("UserInRoomProduct", roomSize);
   });
 
   // Tham gia vào phòng Chat
   socket.on("joinRoomChat", async (room) => {
     try {
-
       const roomName = `chat${room}`;
       socket.join(roomName);
     } catch (err) {
@@ -86,10 +105,7 @@ io.on("connection", (socket) => {
       userId,
       createAt,
     };
-
     const messageString = JSON.stringify(messageObject);
-    console.log("Message:", messageObject);
-
     if (!room || !messageObject) {
       console.error("Invalid data");
       return;
@@ -114,7 +130,7 @@ io.on("connection", (socket) => {
   // Thay đổi thông tin Product
   socket.on("changeProduct", async (data) => {
     const { room, product } = data;
-    io.to(`Product${room}`).emit("receiveChangeProduct", product);
+    io.to(getRoomNameProduct(room)).emit("receiveChangeProduct", product);
   });
 
   // Tải thêm tin nhắn
@@ -128,7 +144,7 @@ io.on("connection", (socket) => {
       const messages = await redisClient.lRange(
         `chat_history_${room}`,
         lastMessageIndex - 16,
-        lastMessageIndex==-1?-1:lastMessageIndex - 1
+        lastMessageIndex == -1 ? -1 : lastMessageIndex - 1
       );
       if (messages.length > 0) {
         io.to(listUser[userId]).emit("chatHistory", messages);
@@ -140,7 +156,7 @@ io.on("connection", (socket) => {
 
   // Rời phòng Product
   socket.on("leaveRoomProduct", (room) => {
-    const roomName = `Product${room}`;
+    const roomName = getRoomNameProduct(room)
     socket.leave(roomName);
     const roomSize = getUsersInRoom(roomName);
     io.to(roomName).emit("UserOutRoomProduct", roomSize);
@@ -166,7 +182,7 @@ function getUsersInRoom(roomName) {
 }
 
 // API kiểm tra trạng thái server
-app.get("/api/status", (req, res) => {
+app.get("/", (req, res) => {
   const totalUsers = Object.keys(listUser).length;
   const rooms = {};
 
@@ -185,5 +201,5 @@ app.get("/api/status", (req, res) => {
 
 // Khởi động server
 server.listen(5001, () => {
-  console.log("Server is running on port 5002");
+  console.log("Server is running on port 5001");
 });

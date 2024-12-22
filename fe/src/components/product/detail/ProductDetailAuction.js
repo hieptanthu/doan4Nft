@@ -21,11 +21,9 @@ import Chat from "@/chat";
 
 function ProductDetailAuction({ NFT, NFTAuction }) {
   const router = useRouter();
-  const { contractAuction, account } = useContext(useContract);
+  const { contractAuction, account, socket } = useContext(useContract);
   const [history, setHistory] = useState(null);
   const [price, setPrice] = useState(0);
-
-  const [chats, setChats] = useState(null);
 
   useEffect(() => {
     const callHistory = async () => {
@@ -35,6 +33,8 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
       }
     };
     callHistory();
+
+   
   }, [NFT]);
 
   const PlaceBid = async () => {
@@ -49,6 +49,10 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
     const data = await contractAuction.PlaceBid(NFTAuction.tokenId, PriceIn);
     if (data) {
       alert("placeBid true");
+      socket.emit("changeProduct", {
+        room: parseInt(NFT.tokenId),
+        product:"null",
+      });
     } else {
       alert("placeBid false");
     }
@@ -58,6 +62,7 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
       console.log("error cancel Auction", error);
     }
   };
+
   const cancelAuction = async () => {
     try {
       const data = await contractAuction.Cancel(NFT.tokenId);
@@ -85,6 +90,7 @@ function ProductDetailAuction({ NFT, NFTAuction }) {
       console.log("error cancel Auction", error);
     }
   };
+
   return (
     <>
       {NFT != null ? (

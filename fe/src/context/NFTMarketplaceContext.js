@@ -1,27 +1,39 @@
 // src/ContractContext.js
-
 import React from "react";
 import { useState } from "react";
 import Web3Modal from "web3modal";
 import smartContract from "./smartContract";
 import ipfs from "./ipfs";
 import Web3 from "web3";
+import io from "socket.io-client";
 import lbr from "@/library";
 
 export const useContract = React.createContext();
 
 export const ContractProvider = ({ children }) => {
   const [account, setAccount] = useState();
+  const [socket, setSocket] = useState(null);
+
+  const connectingSocket = (account) => {
+    // Kết nối tới URL từ biến môi trường
+    const socketURL = process.env.NEXT_PUBLIC_Socket_URL; // URL từ môi trường
+    const newSocket = io(socketURL, {
+      query: {
+        userid: account,
+      },
+      transports: ["polling", "websocket"], // Hỗ trợ cả polling và websocket
+    });
+    setSocket(newSocket);
+  };
   const accountHandler = {
     checkIfWalletConnected: async () => {
       try {
         if (!window.ethereum) {
           if (confirm("Please install MetaMask")) {
-              window.location.href = "https://metamask.io/download.html"; // Dẫn đến trang tải MetaMask
+            window.location.href = "https://metamask.io/download.html"; // Dẫn đến trang tải MetaMask
           }
           return "";
         }
-      
 
         const we3Modal = new Web3Modal();
 
@@ -35,10 +47,49 @@ export const ContractProvider = ({ children }) => {
         if (accounts.length > 0) {
           const account = accounts[0];
 
+          const networkId = await web3.eth.net.getId();
+          // Custom Network ID for "Hiep" (1337)
+          const targetNetworkId = 1337;
+          if (networkId !== targetNetworkId) {
+            // Request the user to switch to the "Hiep" network (Chain ID 1337)
+            try {
+              await window.ethereum.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: `0x${targetNetworkId.toString(16)}` }],
+              });
+            } catch (switchError) {
+              // Handle errors (e.g., if the network is not available or the user cancels)
+              if (switchError.code === 4902) {
+                // If the target network is not added, you can add it programmatically
+                try {
+                  await window.ethereum.request({
+                    method: "wallet_addEthereumChain",
+                    params: [
+                      {
+                        chainId: `0x${targetNetworkId.toString(16)}`, // 1337 in hex
+                        chainName: "Hiep", // Network name
+                        rpcUrls: ["http://183.80.66.166:8545"], // RPC URL
+                        blockExplorerUrls: [], // No block explorer URL for this network
+                        nativeCurrency: {
+                          name: "HETH", // Currency name
+                          symbol: "HETH", // Currency symbol
+                          decimals: 18, // Decimal places for the currency
+                        },
+                      },
+                    ],
+                  });
+                } catch (addError) {
+                  console.error("Failed to add network:", addError);
+                }
+              }
+            }
+          }
+
           // Get the balance of the connected account (balance is in wei)
           const accountOk = await web3.eth.getAccounts(account);
           localStorage.setItem("accountAddress", accountOk[0]);
           setAccount(accountOk[0]);
+          connectingSocket(accountOk[0]);
         } else {
           console.log("No accounts found");
         }
@@ -536,6 +587,7 @@ export const ContractProvider = ({ children }) => {
         contractMyNFT,
         contractSell,
         contractAuction,
+        socket,
       }}
     >
       {children}

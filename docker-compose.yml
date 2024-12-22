@@ -10,25 +10,26 @@ services:
     networks:
       - app_network  # Đảm bảo rằng nginx và app ở cùng một mạng Docker
 
+  websocket:
+    build:
+      context: ./websocket  # Dự án WebSocket ở thư mục ./websocket
+    container_name: websocket-app
+    ports:
+      - "5001:5001"
+    networks:
+      - app_network
+
   app:
     build:
       context: ./fe  # Dự án Next.js ở thư mục ./fe
     container_name: blokchain-app  # Đảm bảo rằng tên này là đúng
     ports:
       - "3000:3000"
+    depends_on:
+      - websocket  # Đảm bảo rằng dịch vụ websocket khởi động trước
     networks:
       - app_network
-    environment:
-      - REDIS_HOST=redis
     
-  redis:
-    image: redis:latest  # Sử dụng image chính thức của Redis
-    container_name: redis-container
-    ports:
-      - "6379:6379"  # Chuyển tiếp cổng Redis vào container (mặc định Redis sử dụng cổng 6379)
-    networks:
-      - app_network  # Kết nối Redis vào cùng mạng với các dịch vụ khác
-
 networks:
   app_network:
     driver: bridge  # Sử dụng driver bridge để tạo mạng Docker nội bộ giữa các container
